@@ -1,0 +1,95 @@
+:let mapleader = " "
+
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>sw :split<cr>
+:nnoremap <leader>el :vsplit /Users/nikolaypisanchev/git/forms/forms/automation/settings/configs/local_config.json<cr>
+
+nmap <leader>cp :let @*=@%<CR>
+
+:set ignorecase
+:set smartcase
+set number rnu wrap list ruler
+set laststatus=2
+set incsearch
+set autoindent
+set shiftwidth=4
+set backspace=indent,eol,start
+set scrolloff=1
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+"set foldmethod=indent
+
+set backupdir=~/.vim/backup//
+set directory=~/.vim/swap//
+set undodir=~/.vim/undo//
+
+set timeoutlen=300
+set autoread
+
+":bro ol
+
+syntax on
+
+autocmd FileType python setlocal makeprg=python\ /Users/nikolaypisanchev/git/forms/forms/run_pylint.py\ %:p
+
+"autocmd FileType python setlocal makeprg=pylint -s\ n\ --reports=n\ --msg-template=\"{path}:{line}:\ {msg_id}\ {symbol},\ {obj}\ {msg}\"\ %:p
+
+"autocmd FileType python setlocal errorformat=%f:%l:\ %m
+autocmd FileType python setlocal errorformat+=\\.%f:%l:\ %m
+nnoremap <leader>m :silent make\|redraw!\|cc<CR>
+nnoremap <leader>e :cn<CR>
+
+
+command! -nargs=1 Silent
+\ | execute ':silent !'.<q-args>
+\ | execute ':redraw!'
+
+nnoremap <leader>li :Silent black %:p<cr> <bar> :Silent isort -rc %:p<cr> <bar> :cex system('pycodestyle ' . shellescape(expand('%:p'))) <cr> 
+
+nnoremap <leader>jf :%!python -m json.tool<cr>
+
+nnoremap <leader>a :b#<cr>
+
+nnoremap <leader>y "*y
+
+nnoremap <leader>ll <plug>(fzf-complete-line)
+"nnoremap <leader>ll i<C-x><C-l>
+imap <C-l> <plug>(fzf-complete-line)
+
+
+nnoremap <leader>' ysiw'
+nnoremap <leader>rp Pldw
+nnoremap <leader>' :execute "normal \<Plug>Ysurroundiw'"<cr>
+
+:nnoremap <leader>cl :set number! rnu! list!<cr>
+:nnoremap <leader>ss :mks! ~/.vim/sessions/work.vim<cr>
+:nnoremap <leader>ls :source ~/.vim/sessions/work.vim<cr>
+
+:nnoremap <leader>cda :cd ~/git/forms/forms/automation<cr>
+:nnoremap <leader>cdf :cd ~/git/forms<cr>
+
+let g:python_highlight_all = 1
+colorscheme space-vim-dark
+hi Normal guibg=NONE ctermbg=NONE
+
+set rtp+=~/.fzf
+let g:fzf_command_prefix = 'Fzf'
+:nnoremap <leader>o :FzfFiles <cr>
+:nnoremap <leader>f :Rg <cr>
+:nnoremap <leader>/ :FzfLines <cr>
+:nnoremap <leader>b :FzfBuf <cr>
+:nnoremap <Leader>fw :FzfRg <C-R><C-W><CR>
+
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
+:nnoremap <leader>w :w <cr>
+:nnoremap <leader>q :q <cr>
+
+" gui' -> changea ll to lowercase
+"
+"
+:ab br breakpoint()
