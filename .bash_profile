@@ -11,6 +11,8 @@ VIM_FOLDER="~/.vim"
 HISTSIZE=20000
 HISTFILESIZE=20000
 
+alias dot='/usr/bin/git --git-dir=$HOME/.myconf/ --work-tree=$HOME'
+
 alias v="vim"
 alias eb="vim ~/.bash_profile"
 alias sb="source ~/.bash_profile"
@@ -42,6 +44,7 @@ function gp1() {
 }
 
 alias pya="pyenv activate forms"
+alias pyb="pyenv activate b"
 
 alias l="tree -a -L 1 -C"
 
