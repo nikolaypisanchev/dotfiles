@@ -7,16 +7,6 @@ nnoremap <leader>el :vsplit /Users/nikolaypisanchev/git/forms/forms/automation/s
 
 nmap <leader>cp :let @*=@%<CR>
 
-inoremap <expr> " EmptyOnBothSides() ? '""<left>' : '"'
-
-function! EmptyOnBothSides()
-    let line = getline(".") "Get current line
-
-    return line[col(".") - 2] == ' ' || ( "Get character before cursor
-           \line[col(".")] == ' ' &&      "Get character after cursor
-           \col(".") >= col("$") - 1)     "Check if it's last character
-endfunction
-
 set ignorecase
 set smartcase
 set number rnu wrap list ruler

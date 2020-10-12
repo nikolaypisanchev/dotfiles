@@ -15,3 +15,22 @@ setlocal errorformat+=\\.%f:%l:\ %m
 nnoremap <leader>li :Silent black %:p<cr> <bar> :Silent isort -rc %:p<cr> <bar> :cex system('pycodestyle ' . shellescape(expand('%:p'))) <cr>
 
 ab br breakpoint()
+
+function! ShouldDoubleQuotes()
+    return (IsEndOfLine() && GetPrevChar() == ' ') || (GetPrevChar() == ' ' && GetNextChar() == ' ')
+endfunction
+
+function! GetNextChar()
+    return getline(".")[col(".")]
+endfunction
+
+function! GetPrevChar()
+    return getline(".")[col(".") - 2]
+endfunction
+
+function! IsEndOfLine()
+    return col(".") >= col("$")
+endfunction
+
+inoremap <expr> " ShouldDoubleQuotes() ? '""<left>' : '"'
+inoremap <expr> ' ShouldDoubleQuotes() ? "''<left>" : "'"
