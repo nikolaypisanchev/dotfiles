@@ -1,7 +1,9 @@
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
+alias ssh="TERM=xterm-256color ssh"
+
 TEST_RUNNER="testing-nikolay03"
- 
+
 export EDITOR="/usr/local/bin/vim"
 GIT_FOLDER="~/git"
 FORMS_PROJECT="$GIT_FOLDER/forms"
@@ -43,10 +45,17 @@ function gp1() {
     git push --set-upstream origin `git branch --show-current`
 }
 
-alias pya="pyenv activate forms"
-alias pyb="pyenv activate b"
 
+alias pipi="pushd . && \
+            cd $FORMS_FORMS/forms/requirements && \
+            pip install -r form_extraction_dev.txt && \
+            popd"
+
+alias ls="ls -alG"
 alias l="tree -a -L 1 -C"
+
+alias b="bat"
+alias bd="bat --diff"
 
 function t() {
     pushd .
@@ -173,15 +182,27 @@ function dbcon() {
     psql -h $DB_HOST -U forms FORMS_TESTING_NIKOLAY
 }
 
+#PYENV
+export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
 
+alias pya="pyenv activate forms"
+alias pyb="pyenv activate b"
+
+#FZF
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-#source ~/.hsrc
+export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
+
+
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
 PS1="> "

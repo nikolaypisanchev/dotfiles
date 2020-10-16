@@ -34,7 +34,16 @@ hs.hotkey.bind({"alt"}, "c", function()
   end
 end)
 
-hs.hotkey.bind({"alt"}, "s", function()
+hs.hotkey.bind({"alt"}, "f", function()
+  local chrome = hs.application.find('firefox')
+  if chrome:isFrontmost() then
+    chrome:hide()
+  else
+    hs.application.launchOrFocus("/Applications/Firefox.app")
+  end
+end)
+
+hs.hotkey.bind({"alt"}, "a", function()
   local win = hs.window.frontmostWindow()
   local f = win:screen():frame()
   win:setTopLeft(0, 0)
@@ -48,7 +57,7 @@ hs.hotkey.bind({"alt"}, "d", function()
   win:setSize(f.w / 2, f.h)
 end)
 
-hs.hotkey.bind({"alt"}, "f", function()
+hs.hotkey.bind({"alt"}, "w", function()
   local win = hs.window.frontmostWindow()
   local f = win:screen():frame()
   win:setTopLeft(0, 0)

@@ -29,13 +29,42 @@ set undodir=~/.vim/undo//
 set timeoutlen=300
 set autoread
 
+filetype indent on
+
+function! ShouldDoubleQuotes()
+    function! IsAfterAllowedChar()
+        let allowedChars = ['[', '=', '(', ' ', '{']
+        if (index(allowedChars, GetPrevChar()) >= 0)
+            return 1
+        endif
+    endfunction
+
+    return (IsEndOfLine() && IsAfterAllowedChar()) || (GetNextChar() == ' ' && IsAfterAllowedchar())
+endfunction
+
+function! GetNextChar()
+    return getline(".")[col(".")]
+endfunction
+
+function! GetPrevChar()
+    return getline(".")[col(".") - 2]
+endfunction
+
+function! IsEndOfLine()
+    return col(".") >= col("$")
+endfunction
+
+inoremap <expr> " ShouldDoubleQuotes() ? '""<left>' : '"'
+inoremap <expr> ' ShouldDoubleQuotes() ? "''<left>" : "'"
+
 ":bro ol
 
 syntax on
 
+nnoremap <leader>x "_d
+
 nnoremap <leader>m :silent make\|redraw!\|cc<CR>
 nnoremap <leader>e :cn<CR>
-
 
 command! -nargs=1 Silent
 \ | execute ':silent !'.<q-args>
@@ -62,10 +91,39 @@ nnoremap <leader>' :execute "normal \<Plug>Ysurroundiw'"<cr>
 
 :nnoremap <leader>cda :cd ~/git/forms/forms/automation<cr>
 :nnoremap <leader>cdf :cd ~/git/forms<cr>
+:nnoremap <leader>cdv :cd ~/.vim<cr>
 
 let g:python_highlight_all = 1
-colorscheme space-vim-dark
+set background=dark
+set termguicolors
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+"colorscheme solarized
+"colorscheme palenight
+"colorscheme onedark
+"colorscheme space-vim-dark
+colorscheme nord
+"colorscheme pink-moon
 hi Normal guibg=NONE ctermbg=NONE
+
+let g:fzf_colors = {'bg': ['fg', 'Headline', 'Comment']}
+let g:fzf_layout = { 'window': { 'width': 0.99, 'height': 0.99 } }
+
+function! s:copy_results(lines)
+  let joined_lines = join(a:lines, "\n")
+  if len(a:lines) > 1
+    let joined_lines .= "\n"
+  endif
+  let @+ = joined_lines
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit',
+  \ 'ctrl-o': function('s:copy_results'),
+  \ }
+
 
 set rtp+=~/.fzf
 let g:fzf_command_prefix = 'Fzf'
@@ -75,8 +133,11 @@ let g:fzf_command_prefix = 'Fzf'
 :nnoremap <leader>b :FzfBuf <cr>
 :nnoremap <Leader>fw :FzfRg <C-R><C-W><CR>
 
+"TODO make <leader>f copy the result
+
+
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --color="bg:#2e3440,preview-bg:#2e3440"'}), <bang>1)
 
 :nnoremap <leader>w :w <cr>
 :nnoremap <leader>q :q <cr>
