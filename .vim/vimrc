@@ -39,7 +39,14 @@ function! ShouldDoubleQuotes()
         endif
     endfunction
 
-    return (IsEndOfLine() && IsAfterAllowedChar()) || (GetNextChar() == ' ' && IsAfterAllowedchar())
+    function! IsBeforeAllowedChar()
+        let allowedChars = [']', ')', ' ', '}']
+        if (index(allowedChars, GetNextChar()) >= 0 || IsEndOfLine())
+            return 1
+        endif
+    endfunction
+
+    return IsAfterAllowedChar() && IsBeforeAllowedChar()
 endfunction
 
 function! GetNextChar()
@@ -76,11 +83,6 @@ nnoremap <leader>a :b#<cr>
 
 nnoremap <leader>y "*y
 
-nnoremap <leader>ll <plug>(fzf-complete-line)
-"nnoremap <leader>ll i<C-x><C-l>
-imap <C-l> <plug>(fzf-complete-line)
-
-
 nnoremap <leader>' ysiw'
 nnoremap <leader>rp Pldw
 nnoremap <leader>' :execute "normal \<Plug>Ysurroundiw'"<cr>
@@ -106,38 +108,34 @@ colorscheme nord
 "colorscheme pink-moon
 hi Normal guibg=NONE ctermbg=NONE
 
-let g:fzf_colors = {'bg': ['fg', 'Headline', 'Comment']}
+let g:fzf_colors = {'bg': ['bg', 'CursorLine', 'Headline', 'Comment']}
 let g:fzf_layout = { 'window': { 'width': 0.99, 'height': 0.99 } }
-
-function! s:copy_results(lines)
-  let joined_lines = join(a:lines, "\n")
-  if len(a:lines) > 1
-    let joined_lines .= "\n"
-  endif
-  let @+ = joined_lines
-endfunction
 
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
   \ 'ctrl-v': 'vsplit',
-  \ 'ctrl-o': function('s:copy_results'),
   \ }
-
 
 set rtp+=~/.fzf
 let g:fzf_command_prefix = 'Fzf'
-:nnoremap <leader>o :FzfFiles <cr>
-:nnoremap <leader>f :Rg <cr>
-:nnoremap <leader>/ :FzfLines <cr>
-:nnoremap <leader>b :FzfBuf <cr>
-:nnoremap <Leader>fw :FzfRg <C-R><C-W><CR>
+nnoremap <leader>o :FzfFiles <cr>
+nnoremap <leader>f :Rg <cr>
+nnoremap <leader>/ :FzfLines <cr>
+nnoremap <leader>b :FzfBuf <cr>
+nnoremap <Leader>fw :FzfRg <C-R><C-W><CR>
 
-"TODO make <leader>f copy the result
+"nnoremap <leader>ll i<C-x><C-l>
+"inoremap <C-l> <plug>(fzf-complete-line)
 
+inoremap <expr> <c-l> fzf#vim#complete(fzf#wrap({
+  \ 'prefix': '^.*$',
+  \ 'source': 'rg -n ^ --color always',
+  \ 'options': '--ansi --delimiter : --nth 3..',
+  \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --color="bg:#2e3440,preview-bg:#2e3440"'}), <bang>1)
+            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --color="bg:#2e3440,preview-bg:#2e3440" --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}), <bang>1)
 
 :nnoremap <leader>w :w <cr>
 :nnoremap <leader>q :q <cr>
