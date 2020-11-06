@@ -1,0 +1,19 @@
+[01;34m.[00m
+├── [01;34mfzf.vim[00m
+├── [01;34mjedi-vim[00m
+├── [01;34mnord-vim[00m
+├── [01;34monedark.vim[00m
+├── [01;34mpalenight.vim[00m
+├── [01;34mrust.vim[00m
+├── [01;34mspace-vim-dark[00m
+├── [01;34msyntastic[00m
+├── [01;34mvim-abolish[00m
+├── [01;34mvim-colors-solarized[00m
+├── [01;34mvim-pink-moon[00m
+├── [01;34mvim-racer[00m
+├── [01;34mvim-repeat[00m
+├── [01;34mvim-surround[00m
+├── [01;34mvim-toml[00m
+└── vim_plugin_list
+
+15 directories, 1 file
