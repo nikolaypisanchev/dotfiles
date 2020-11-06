@@ -126,6 +126,13 @@ function ldir() {
     popd
 }
 
+function lsh() {
+    pushd .
+    cdf
+    .circleci/helpers/lint-bash.sh
+    popd
+}
+
 function egs() {
     vim $(sgs)
 }
@@ -200,8 +207,8 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
 
 
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+#export NVM_DIR=~/.nvm
+#source $(brew --prefix nvm)/nvm.sh
 
 export PATH="$HOME/.cargo/bin:$PATH"
 

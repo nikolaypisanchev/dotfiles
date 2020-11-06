@@ -29,11 +29,12 @@ set undodir=~/.vim/undo//
 set timeoutlen=300
 set autoread
 
-filetype indent on
+syntax enable
+filetype plugin indent on
 
 function! ShouldDoubleQuotes()
     function! IsAfterAllowedChar()
-        let allowedChars = ['[', '=', '(', ' ', '{']
+        let allowedChars = ['[', '=', '(', ' ', '{', 'f']
         if (index(allowedChars, GetPrevChar()) >= 0)
             return 1
         endif
@@ -65,8 +66,6 @@ inoremap <expr> " ShouldDoubleQuotes() ? '""<left>' : '"'
 inoremap <expr> ' ShouldDoubleQuotes() ? "''<left>" : "'"
 
 ":bro ol
-
-syntax on
 
 nnoremap <leader>x "_d
 
@@ -135,7 +134,7 @@ inoremap <expr> <c-l> fzf#vim#complete(fzf#wrap({
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
 command! -bang -nargs=* Rg
-            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --color="bg:#2e3440,preview-bg:#2e3440" --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}), <bang>1)
+            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}), <bang>1)
 
 :nnoremap <leader>w :w <cr>
 :nnoremap <leader>q :q <cr>

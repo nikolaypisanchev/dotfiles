@@ -7,6 +7,8 @@ setlocal formatoptions=croql
 
 setlocal makeprg=python\ /Users/nikolaypisanchev/git/forms/forms/run_pylint.py\ %:p
 
+let g:syntastic_python_checkers = []
+
 "setlocal makeprg=pylint -s\ n\ --reports=n\ --msg-template=\"{path}:{line}:\ {msg_id}\ {symbol},\ {obj}\ {msg}\"\ %:p
 
 "setlocal errorformat=%f:%l:\ %m

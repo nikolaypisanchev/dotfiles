@@ -1,11 +1,19 @@
-hs.hotkey.bind({"alt"}, "space", function()
-  local alacritty = hs.application.find('alacritty')
-  if alacritty:isFrontmost() then
-    alacritty:hide()
-  else
-    hs.application.launchOrFocus("/Applications/Alacritty.app")
-  end
-end)
+function toggleLaunch(name, app)
+    return function()
+        local prog = hs.application.find(name)
+        if not prog then
+            hs.application.launchOrFocus(app)
+        end
+
+        if prog:isFrontmost() then
+            prog:hide()
+        else
+            prog:activate()
+        end
+    end
+end
+
+hs.hotkey.bind({"alt"}, "space", toggleLaunch("alacritty", "/Applications/Alacritty.app"))
 
 hs.hotkey.bind({"alt"}, "m", function()
   local a, b = hs.application.find('alacritty')
@@ -25,46 +33,30 @@ hs.hotkey.bind({"alt"}, "n", function()
   end
 end)
 
-hs.hotkey.bind({"alt"}, "c", function()
-  local chrome = hs.application.find('chrome')
-  if chrome:isFrontmost() then
-    chrome:hide()
-  else
-    hs.application.launchOrFocus("/Applications/Google Chrome.app")
-  end
-end)
+hs.hotkey.bind({"alt"}, "c", toggleLaunch("chrome", "/Applications/Google Chrome.app"))
+hs.hotkey.bind({"alt"}, "f", toggleLaunch("firefox", "/Applications/Firefox.app"))
 
-hs.hotkey.bind({"alt"}, "f", function()
-  local chrome = hs.application.find('firefox')
-  if chrome:isFrontmost() then
-    chrome:hide()
-  else
-    hs.application.launchOrFocus("/Applications/Firefox.app")
-  end
-end)
+function tile (x, y, w, h)
+  return function()
+      local win = hs.window.frontmostWindow()
+      win:setTopLeft(x, y)
+      win:setSize(w, h)
+    end
+end
 
-hs.hotkey.bind({"alt"}, "a", function()
-  local win = hs.window.frontmostWindow()
-  local f = win:screen():frame()
-  win:setTopLeft(0, 0)
-  win:setSize(f.w / 2, f.h)
-end)
+function ww()
+    return hs.window.frontmostWindow():screen():frame().w
+end
 
-hs.hotkey.bind({"alt"}, "d", function()
-  local win = hs.window.frontmostWindow()
-  local f = win:screen():frame()
-  win:setTopLeft(f.w / 2, 0)
-  win:setSize(f.w / 2, f.h)
-end)
+function wh()
+    return hs.window.frontmostWindow():screen():frame().h
+end
 
-hs.hotkey.bind({"alt"}, "w", function()
-  local win = hs.window.frontmostWindow()
-  local f = win:screen():frame()
-  win:setTopLeft(0, 0)
-  win:setSize(f.w, f.h)
-end)
+hs.hotkey.bind({"alt"}, "a", tile(0, 0, ww()/2, wh()))
+hs.hotkey.bind({"alt"}, "d", tile(ww()/2, 0, ww()/2, wh()))
+hs.hotkey.bind({"alt"}, "s", tile(0, 0, ww(), wh()))
+hs.hotkey.bind({"alt"}, "w", tile(0, 0, ww(), wh()/2))
+hs.hotkey.bind({"alt"}, "x", tile(0, wh()/2, ww(), wh()/2))
 
-hs.hotkey.bind({"alt"}, "x", function()
-  local win = hs.window.frontmostWindow()
-  win:minimize()
-end)
+hs.hotkey.bind({"alt"}, "l", tile(-ww(), wh()/2, ww() / 2, wh()))
+
