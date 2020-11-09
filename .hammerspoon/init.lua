@@ -36,27 +36,41 @@ end)
 hs.hotkey.bind({"alt"}, "c", toggleLaunch("chrome", "/Applications/Google Chrome.app"))
 hs.hotkey.bind({"alt"}, "f", toggleLaunch("firefox", "/Applications/Firefox.app"))
 
+function transform(x, what)
+  if type(x) == 'string' then
+
+    negate = x:find('-')
+
+    if x:find('full') then
+      x = hs.window.frontmostWindow():screen():frame()[what]
+    elseif x:find('half') then
+      x = hs.window.frontmostWindow():screen():frame()[what] / 2
+    end
+
+    if negate then
+        x = -x
+    end
+  end
+
+  return x
+end
+
 function tile (x, y, w, h)
   return function()
-      local win = hs.window.frontmostWindow()
-      win:setTopLeft(x, y)
-      win:setSize(w, h)
-    end
+    local win = hs.window.frontmostWindow()
+
+    win:setTopLeft(transform(x, 'w'), transform(y, 'h'))
+    win:setSize(transform(w, 'w'), transform(h, 'h'))
+  end
 end
 
-function ww()
-    return hs.window.frontmostWindow():screen():frame().w
-end
+hs.hotkey.bind({"alt"}, "a", tile(0, 0, 'half', 'full'))
+hs.hotkey.bind({"alt"}, "d", tile('half', 0, 'half', 'full'))
+hs.hotkey.bind({"alt"}, "s", tile(0, 0, 'full', 'full'))
+hs.hotkey.bind({"alt"}, "w", tile(0, 0, 'full', 'half'))
+hs.hotkey.bind({"alt"}, "x", tile(0, 'half', 'full', 'half'))
 
-function wh()
-    return hs.window.frontmostWindow():screen():frame().h
-end
-
-hs.hotkey.bind({"alt"}, "a", tile(0, 0, ww()/2, wh()))
-hs.hotkey.bind({"alt"}, "d", tile(ww()/2, 0, ww()/2, wh()))
-hs.hotkey.bind({"alt"}, "s", tile(0, 0, ww(), wh()))
-hs.hotkey.bind({"alt"}, "w", tile(0, 0, ww(), wh()/2))
-hs.hotkey.bind({"alt"}, "x", tile(0, wh()/2, ww(), wh()/2))
-
-hs.hotkey.bind({"alt"}, "l", tile(-ww(), wh()/2, ww() / 2, wh()))
+hs.hotkey.bind({"alt"}, "j", tile('-full', 'half', 'half', 'full'))
+hs.hotkey.bind({"alt"}, "l", tile('-half', 'half', 'half', 'full'))
+hs.hotkey.bind({"alt"}, "k", tile('-full', '-full', 'full', 'full'))
 
