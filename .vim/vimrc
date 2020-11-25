@@ -110,6 +110,8 @@ hi Normal guibg=NONE ctermbg=NONE
 let g:fzf_colors = {'bg': ['bg', 'CursorLine', 'Headline', 'Comment']}
 let g:fzf_layout = { 'window': { 'width': 0.99, 'height': 0.99 } }
 
+let g:fzf_preview_window = ['up:40%', 'ctrl-/']
+
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-x': 'split',
@@ -134,7 +136,7 @@ inoremap <expr> <c-l> fzf#vim#complete(fzf#wrap({
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
 command! -bang -nargs=* Rg
-            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}), <bang>1)
+            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}, 'up:40%'), <bang>1)
 
 :nnoremap <leader>w :w <cr>
 :nnoremap <leader>q :q <cr>
