@@ -15,7 +15,7 @@ end
 
 hs.hotkey.bind({"alt"}, "space", toggleLaunch("alacritty", "/Applications/Alacritty.app"))
 
-hs.hotkey.bind({"alt"}, "m", function()
+hs.hotkey.bind({"alt"}, "n", function()
   local a, b = hs.application.find('alacritty')
   if b:isFrontmost() then
     b:hide()
@@ -24,7 +24,7 @@ hs.hotkey.bind({"alt"}, "m", function()
   end
 end)
 
-hs.hotkey.bind({"alt"}, "n", function()
+hs.hotkey.bind({"alt"}, "m", function()
   local a, b, c = hs.application.find('alacritty')
   if c:isFrontmost() then
     c:hide()

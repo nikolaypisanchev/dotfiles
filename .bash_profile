@@ -1,6 +1,13 @@
+#tkpath="automation/sdm/tests"
+tkpath="automation/sdm/tests/workflows"
+
 export BASH_SILENCE_DEPRECATION_WARNING=1
 
 alias ssh="TERM=xterm-256color ssh"
+alias a="/usr/local/bin/aws"
+alias al="a sso login"
+
+alias ekm="vim /Users/nikolaypisanchev/qmk_firmware/keyboards/minidox/keymaps/nikolaypisanchev/keymap.c"
 
 TEST_RUNNER="testing-nikolay03"
 
@@ -30,6 +37,7 @@ alias cdv="cd $VIM_FOLDER"
 alias cdvs="cd $VIM_FOLDER/pack/koko/start"
 alias ea="vim ~/.config/alacritty/alacritty.yml"
 alias eh="vim ~/.hammerspoon/init.lua"
+alias ..="cd .."
 
 alias gs="git status"
 alias gap="git add --patch"
@@ -67,9 +75,16 @@ function t() {
 function tk() {
     pushd .
     cdff
-    pytest --confcutdir=automation/ -rA -v --html=report.html --self-contained-html -s -k $1 --pdb -p no:django -p no:logging --show-capture=all --ignore automation/dedupe automation
+    pytest --confcutdir=automation/ -rA -v --html=report.html --self-contained-html -s -k $1 -p no:django -p no:logging --show-capture=all --ignore automation/dedupe automation
     popd
 }   
+
+function tkdb() {
+    pushd .
+    cdff
+    pytest --confcutdir=automation/ -rA -v --html=report.html --self-contained-html -s -k $1 --pdb -p no:django -p no:logging --show-capture=all --ignore automation/dedupe --ignore automation/datagen $tkpath 
+    popd
+}
 
 function tkp() {
     pushd .
@@ -102,7 +117,7 @@ function lint() {
     isort -rc $p
     black $p
     pycodestyle $p
-    python run_pylint.py $p --jobs 1
+    python run_pylint.py $p 
 }
 
 function relpath() {
@@ -200,16 +215,19 @@ alias pya="pyenv activate forms"
 alias pyb="pyenv activate b"
 
 #FZF
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ "$FZF_SOURCED" != "yes" ] && [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
 
+export FZF_SOURCED="yes"
+
 
 #export NVM_DIR=~/.nvm
 #source $(brew --prefix nvm)/nvm.sh
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.cargo/bin:/Applications/Racket v7.9/bin:$PATH"
+pya
 
 PS1="> "
