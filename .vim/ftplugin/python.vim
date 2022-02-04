@@ -14,7 +14,23 @@ let g:syntastic_python_checkers = []
 "setlocal errorformat=%f:%l:\ %m
 setlocal errorformat+=\\.%f:%l:\ %m
 
-nnoremap <leader>li :Silent black %:p<cr> <bar> :Silent isort -rc %:p<cr> <bar> :cex system('pycodestyle ' . shellescape(expand('%:p'))) <cr>
+let g:jedi#popup_on_dot = 0
+let g:jedi#show_call_signatures = "1"
+
+nnoremap <leader>li :Silent black %:p:.<cr> <bar> :Silent isort -rc --settings-path=/Users/nikolaypisanchev/git/forms/.isort.cfg %:p:.<cr> <bar> :cex system('pycodestyle ' . shellescape(expand('%:p'))) <cr>
 
 ab br breakpoint()
 
+nnoremap <leader>t :call CopyTestString()<cr>
+
+function! CopyTestString()
+    let cursor_pos = getpos('.')
+    call search('def test_', 'b')
+    normal! w
+    let testName = expand("<cword>")
+    let file = @%
+    call setpos('.', cursor_pos)
+    let res="\"automation/" . file . " " . "-k " . testName . "\""
+    let @*=res
+    echo res
+endfunction

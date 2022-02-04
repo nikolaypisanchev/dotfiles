@@ -71,6 +71,7 @@ hs.hotkey.bind({"alt"}, "w", tile(0, 0, 'full', 'half'))
 hs.hotkey.bind({"alt"}, "x", tile(0, 'half', 'full', 'half'))
 
 hs.hotkey.bind({"alt"}, "j", tile('-full', 'half', 'half', 'full'))
+-- hs.hotkey.bind({"alt"}, "j", tile(0, 'half', 'half', 'full'))
 hs.hotkey.bind({"alt"}, "l", tile('-half', 'half', 'half', 'full'))
 hs.hotkey.bind({"alt"}, "k", tile('-full', '-full', 'full', 'full'))
 
