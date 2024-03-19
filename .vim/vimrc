@@ -1,11 +1,10 @@
 let mapleader = " "
 
-nnoremap <leader>ev :e $MYVIMRC<cr>
-nnoremap <leader>sv :source $MYVIMRC<cr>
-nnoremap <leader>sw :split<cr>
-nnoremap <leader>el :vsplit /Users/nikolaypisanchev/git/forms/forms/automation/settings/configs/local_config.json<cr>
+nnoremap <leader>ev :e ~/.vim/vimrc<cr>
+nnoremap <leader>sv :source ~/.vim/vimrc<cr>
 
-nmap <leader>cp :let @*=@%<CR>
+" nmap <leader>cp :let @*=@%<CR>
+nmap <leader>cp :let @+=@%<CR>
 
 set ignorecase
 set smartcase
