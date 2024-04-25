@@ -1,5 +1,6 @@
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export PATH=/opt/homebrew/bin:$PATH
+export EDITOR=vim
 
 alias docker="docker"
 alias ssh="TERM=xterm-256color ssh"
