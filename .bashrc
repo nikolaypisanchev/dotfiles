@@ -1,6 +1,7 @@
 export BASH_SILENCE_DEPRECATION_WARNING=1
+export PATH=/opt/homebrew/bin:$PATH
 
-alias docker="podman"
+alias docker="docker"
 alias ssh="TERM=xterm-256color ssh"
 
 # https://gist.github.com/junegunn/8b572b8d4b5eddd8b85e5f4d40f17236
@@ -42,11 +43,15 @@ alias v="vim"
 alias eb="vim ~/.bashrc"
 alias sb="source ~/.bashrc"
 
+alias cdg="cd ~/git"
 alias cdv="cd $VIM_FOLDER"
 alias cdvs="cd $VIM_FOLDER/pack/koko/start"
 alias ea="vim ~/.config/alacritty/alacritty.yml"
 alias eh="vim ~/.hammerspoon/init.lua"
 alias ..="cd .."
+
+alias ec="vim /Users/nikolaypisanchev/.nixpkgs/darwin-configuration.nix"
+alias sc="darwin-rebuild switch"
 
 alias gs="git status"
 alias gap="git add --patch"
@@ -125,11 +130,16 @@ function cgs() {
 #PYENV
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-    eval "$(pyenv init --path)"
-    eval "$(pyenv virtualenv-init -)"
-fi
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+#if command -v pyenv 1>/dev/null 2>&1; then
+    #eval "$(pyenv init -)"
+    #eval "$(pyenv init --path)"
+    #eval "$(pyenv virtualenv-init -)"
+#fi
 # eval "$(pyenv init --path)"
 
 #FZF
@@ -139,7 +149,8 @@ if command -v fzf-share >/dev/null; then
 fi
 
 # [ "$FZF_SOURCED" != "yes" ] && [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules'
+#export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --exclude node_modules --exclude **/site-packages'
@@ -147,3 +158,7 @@ export FZF_ALT_C_COMMAND='fd --type d --hidden --follow --exclude .git --exclude
 FZF_SOURCED="yes"
 
 PS1="> "
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
