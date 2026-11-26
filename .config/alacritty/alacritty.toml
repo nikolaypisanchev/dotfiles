@@ -1,6 +1,5 @@
-live_config_reload = true
 
-[shell]
+[terminal.shell]
 program = "/run/current-system/sw/bin/bash"
 #args = ["-l"]
 
@@ -75,7 +74,7 @@ x = 1
 y = 1
 
 [[keyboard.bindings]]
-action = "SpawnNewInstance"
+action = "CreateNewWindow"
 key = "N"
 mods = "Command"
 
@@ -111,10 +110,16 @@ opacity = 0.95
 startup_mode = "Windowed"
 title = "title"
 
-[window.dimensions]
-columns = 160
-lines = 80
-
 [window.padding]
 x = 10
 y = 20
+
+[general]
+live_config_reload = true
+
+[terminal]
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

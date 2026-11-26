@@ -1,11 +1,13 @@
-keyboard:
+Keyboard:
   bindings:
     #- { key: Return,   mods: Command,         action: ToggleSimpleFullscreen }
-    - { key: N,        mods: Command,         action: SpawnNewInstance }
+    # - { key: N,        mods: Command,         action: SpawnNewInstance }
+    # - { key: N,        mods: Command,         action: SpawnNewInstance }
     - { key: Left,     mods: Alt,     chars: "\x1bb"                       }
     - { key: Right,    mods: Alt,     chars: "\x1bf"                       }
     - { key: Left,     mods: Command, chars: "\x1bOH",   mode: AppCursor   } # Home
     - { key: Right,    mods: Command, chars: "\x1bOF",   mode: AppCursor   } # End
+    - { key = "N", mods = "Command|Shift", action = "CreateNewWindow" }
     #- { key: Space,  mods: Shift,             action: ToggleViMode           }
 
 # Configuration for Alacritty, the GPU enhanced terminal emulator.
@@ -74,7 +76,7 @@ window:
 
   # Window title
   title: title
-  opacity: 0.95
+  opacity: 0.80
 
   # Window class (Linux/BSD only):
   #class:
@@ -358,7 +360,8 @@ cursor:
   unfocused_hollow: true
 
 # Live config reload (changes require restart)
-live_config_reload: true
+general:
+  live_config_reload: true
 
 # Shell
 #

@@ -24,6 +24,9 @@
           vim-fugitive
           vim-rhubarb
           vim-vinegar
+          jedi-vim
+          ale
+          vimwiki
         ];
         opt = [];
       };

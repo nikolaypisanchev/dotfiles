@@ -4,7 +4,10 @@ nnoremap <leader>ev :e ~/.vim/vimrc<cr>
 nnoremap <leader>sv :source ~/.vim/vimrc<cr>
 
 " nmap <leader>cp :let @*=@%<CR>
-nmap <leader>cp :let @+=@%<CR>
+" nmap <leader>cp :let @+=@%<CR>
+" nmap <leader>cp :silent execute '!echo ' . shellescape(expand('%:.')) . ' | pbcopy' | redraw!
+
+nnoremap <leader>cp :silent execute printf('!echo %s \| pbcopy', shellescape(expand('%:.')))<Bar>redraw!<CR>
 
 set ignorecase
 set smartcase
@@ -138,7 +141,7 @@ inoremap <expr> <c-l> fzf#vim#complete(fzf#wrap({
   \ 'reducer': { lines -> join(split(lines[0], ':\zs')[2:], '') }}))
 
 command! -bang -nargs=* Rg
-            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}, 'up:40%'), <bang>1)
+            \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --hidden --ignore-file ~/.vim/.ignore --smart-case -g '!submissions_processing_results' -g '!api_rest_results' ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --expect=ctrl-x', '_action': {'ctrl-x': 'split'}}, 'up:40%'), <bang>1)
 
 :nnoremap <leader>w :w <cr>
 :nnoremap <leader>q :q <cr>
@@ -146,3 +149,19 @@ command! -bang -nargs=* Rg
 " gui' -> changea ll to lowercase
 "
 "
+" set clipboard=unnamed
+"
+
+" Tell Vim to only save folds and the cursor position in the view file
+set viewoptions=folds,cursor
+" set autowrite
+" no need to save buffer before switching to another one
+set hidden
+
+" Automatically save and load folds when leaving/entering buffers
+augroup RememberFolds
+    autocmd!
+    autocmd BufWinLeave * silent! mkview
+    autocmd BufWinEnter * silent! loadview
+augroup END
+
